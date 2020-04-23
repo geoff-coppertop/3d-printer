@@ -58,7 +58,9 @@ runcmd:
 
   - 'sleep 10'
 
-  - 'git clone "https://github.com/geoff-coppertop/3d-printer" ./'
+  - 'git clone "https://github.com/geoff-coppertop/3d-printer"'
+
+  - 'cd ./3d-printer'
 
   - './hypriot/setup.sh'
 
