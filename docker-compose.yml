@@ -8,8 +8,6 @@ services:
     restart: always
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    links:
-      - project
     stdin_open: true
     tty: true
     privileged: true
