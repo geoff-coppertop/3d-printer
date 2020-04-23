@@ -24,7 +24,6 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     links:
-      - project
       - x11
     stdin_open: true
     tty: true
