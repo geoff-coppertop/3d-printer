@@ -1,29 +1,42 @@
 version: '2'
 services:
-  x11:
-    build: ./x11/
-    environment:
-      - DISPLAY=:0
-      - QT_X11_NO_MITSHM=1
-    restart: always
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /dev/input:/dev/input
-    stdin_open: true
-    tty: true
-    privileged: true
+    display:
+        build: ./display/
+        container_name: display
+        restart: unless-stopped
+        privileged: true
+        environment: 
+            - URL: https://coppertop.ca
+        volumes:
+            - /var/run/dbus:/host/run/dbus
 
-  chrome:
-    build: ./chromium/
-    command: chromium-browser --kiosk https://coppertop.ca --no-first-run --touch-events=enabled --fast --fast-start --disable-popup-blocking --disable-infobars --disable-session-crashed-bubble --disable-tab-switcher --disable-translate --enable-low-res-tiling
-    restart: always
-    environment:
-      - DISPLAY=:0
-      - QT_X11_NO_MITSHM=1
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    links:
-      - x11
-    stdin_open: true
-    tty: true
-    privileged: true
+#     octoprint:
+#         image: octoprint/octoprint
+
+#   x11:
+#     build: ./x11/
+#     environment:
+#       - DISPLAY=:0
+#       - QT_X11_NO_MITSHM=1
+#     restart: always
+#     volumes:
+#       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+#       - /dev/input:/dev/input
+#     stdin_open: true
+#     tty: true
+#     privileged: true
+
+#   chrome:
+#     build: ./chromium/
+#     command: chromium-browser --kiosk https://coppertop.ca --no-first-run --touch-events=enabled --fast --fast-start --disable-popup-blocking --disable-infobars --disable-session-crashed-bubble --disable-tab-switcher --disable-translate --enable-low-res-tiling
+#     restart: always
+#     environment:
+#       - DISPLAY=:0
+#       - QT_X11_NO_MITSHM=1
+#     volumes:
+#       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+#     links:
+#       - x11
+#     stdin_open: true
+#     tty: true
+#     privileged: true

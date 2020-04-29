@@ -10,5 +10,7 @@ hyperpixel4-init
 cd ..
 rm -rf hyperpixel4
 
+echo "gpu_mem=128" >> /boot/config.txt
+
 # Start the services
 docker-compose up -d
