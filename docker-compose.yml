@@ -7,8 +7,8 @@ services:
         privileged: true
         environment: 
             - URL: https://coppertop.ca
-        volumes:
-            - /var/run/dbus:/host/run/dbus
+        # volumes:
+        #     - /var/run/dbus:/host/run/dbus
 
 #     octoprint:
 #         image: octoprint/octoprint
