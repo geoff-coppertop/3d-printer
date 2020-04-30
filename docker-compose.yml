@@ -6,7 +6,7 @@ services:
         restart: unless-stopped
         privileged: true
         environment: 
-            - URL: https://coppertop.ca
+            - URL=https://coppertop.ca
         # volumes:
         #     - /var/run/dbus:/host/run/dbus
 

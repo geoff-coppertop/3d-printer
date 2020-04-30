@@ -30,8 +30,8 @@ RUN echo "#!/bin/bash" > /etc/X11/xinit/xserverrc \
   && echo "" >> /etc/X11/xinit/xserverrc \
   && echo 'exec /usr/bin/X -s 0 dpms -nocursor -nolisten tcp "$@"' >> /etc/X11/xinit/xserverrc
 
-#### advised by balena to add the below for fixing local input issues
-
+# We never want these to run in a container
+# Feel free to edit the list but this is the one we used
 RUN systemctl mask \
     dev-hugepages.mount \
     sys-fs-fuse-connections.mount \
@@ -43,26 +43,19 @@ RUN systemctl mask \
     getty.target \
     graphical.target
 
-
 COPY entry.sh /usr/bin/entry.sh
 COPY balena.service /etc/systemd/system/balena.service
 
 RUN systemctl enable /etc/systemd/system/balena.service
 
 STOPSIGNAL 37
-#VOLUME ["/sys/fs/cgroup"]
 ENTRYPOINT ["/usr/bin/entry.sh"]
-
-####
-
-# Move to app dir
-WORKDIR /usr/src/app
-
-# Move app to filesystem
-COPY start.sh ./start.sh
-
-## uncomment if you want systemd
 ENV INITSYSTEM on
+ENV UDEV on
+
+# Setting up the user application
+WORKDIR /usr/src/app
+COPY start.sh ./
 
 # Start app
 CMD ["bash", "/usr/src/app/start.sh"]
