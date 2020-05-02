@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-# export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
-
 # By default docker gives us 64MB of shared memory size but to display heavy
 # pages we need more.
 umount /dev/shm && mount -t tmpfs shm /dev/shm
@@ -21,9 +19,6 @@ echo "#!/bin/bash" > /home/chromium/xstart.sh
 echo "chromium-browser --kiosk $URL --disable-gpu --disable-software-rasterizer --disable-dev-shm-usage" >> /home/chromium/xstart.sh
 chmod 770 /home/chromium/xstart.sh
 chown chromium:chromium /home/chromium/xstart.sh
-
-GREEN='\033[0;32m'
-echo -e "${GREEN}Hi."
 
 # starting chromium as chrome user
 su -c 'startx /home/chromium/xstart.sh' chromium

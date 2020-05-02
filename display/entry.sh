@@ -84,8 +84,10 @@ function init_systemd()
 		WorkingDirectory=$(pwd)
 	EOF
 
+ 	# sleep infinity &
+	# exec env DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket /sbin/init quiet systemd.show_status=0
  	sleep infinity &
-	exec env DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket /sbin/init quiet systemd.show_status=0
+	exec /sbin/init quiet systemd.show_status=0
 }
 
  function init_non_systemd()
