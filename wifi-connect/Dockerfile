@@ -4,8 +4,7 @@ FROM balenalib/raspberrypi3
 RUN install_packages    \
     dnsmasq             \
     wireless-tools      \
-    dbus                \
-    udev
+    dbus
 
 WORKDIR /usr/src/app
 
