@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   lsb-release \
   fbset \
   systemd-sysv \
+  udev \
   libexpat-dev && rm -rf /var/lib/apt/lists/*
 
 RUN echo "#!/bin/bash" > /etc/X11/xinit/xserverrc \

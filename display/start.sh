@@ -20,5 +20,10 @@ echo "chromium-browser --kiosk $URL --disable-gpu --disable-software-rasterizer 
 chmod 770 /home/chromium/xstart.sh
 chown chromium:chromium /home/chromium/xstart.sh
 
+if which udevadm > /dev/null; then
+    set +e # Disable exit on error 
+    udevadm control --reload-rules service udev restart udevadm trigger set -e # Re-enable exit on error
+fi
+
 # starting chromium as chrome user
 su -c 'startx /home/chromium/xstart.sh' chromium

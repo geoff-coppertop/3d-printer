@@ -6,12 +6,12 @@ services:
         restart: unless-stopped
         privileged: true
         environment: 
-            - URL: "https://coppertop.ca"
-            - DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
+            URL: "https://coppertop.ca"
+            DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
         volumes:
             - /run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
         links:
-            - traefik
+            - wifi-connect
 
     wifi-connect:
         build: ./wifi-connect/
