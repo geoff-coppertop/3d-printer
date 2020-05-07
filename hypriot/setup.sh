@@ -33,6 +33,8 @@ apt-get clean
 # Change the interfaces file so that NetworkManager can control all the things
 mv /etc/network/interfaces /etc/network/interfaces.bak
 
+sed -i 's/\(managed=\)true/\1false/g' /etc/NetworkManager/NetworkManager.conf
+
 echo "auto lo" > /etc/network/interfaces
 echo "iface lo inet loopback" >> /etc/network/interfaces
 

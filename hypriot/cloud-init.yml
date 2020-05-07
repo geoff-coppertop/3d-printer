@@ -23,25 +23,12 @@ locale: "en_US.UTF-8"
 # # Value of 'timezone' must exist in /usr/share/zoneinfo
 timezone: "America/Edmonton"
 
-# # WiFi connect to HotSpot
-# To make wifi work with RPi3 and RPi0
-# you also have to set "enable_uart=0" in config.txt
 write_files:
   - content: |
-      # This file describes the network interfaces available on your system
-      # and how to activate them. For more information, see interfaces(5).
-
-      allow-hotplug eth0
+      auto eth0
       iface eth0 inet dhcp
+        dns-nameservers 1.1.1.1 8.8.8.8
     path: /etc/network/interfaces.d/eth0
-
-  - content: |
-      [main]
-      plugins=ifupdown,keyfile
-
-      [ifupdown]
-      managed=true
-    path: /etc/NetworkManager/NetworkManager.conf
 
 # These commands will be run once on first boot only
 runcmd:
