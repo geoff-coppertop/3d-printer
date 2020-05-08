@@ -13,13 +13,10 @@ dpkg-reconfigure xserver-xorg-legacy
 useradd chromium -m -s /bin/bash -G root
 usermod -a -G root,tty chromium
 
-#create start script for X11
+# create start script for X11
 echo "#!/bin/bash" > /home/chromium/xstart.sh
 # echo "xset s off -dpms" >> /home/chromium/xstart.sh
-echo "chromium-browser --kiosk $URL --disable-gpu --disable-software-rasterizer --disable-dev-shm-usage --enable-logging=stderr --v=1 > /var/log/chromium.log 2>&1" >> /home/chromium/xstart.sh
-
-touch /var/log/chromium.log
-chown chromium:chromium /var/log/chromium.log
+echo "chromium-browser --kiosk $URL --disable-gpu --disable-software-rasterizer --disable-dev-shm-usage" >> /home/chromium/xstart.sh
 
 chmod 770 /home/chromium/xstart.sh
 chown chromium:chromium /home/chromium/xstart.sh

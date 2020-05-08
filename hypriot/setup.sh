@@ -20,14 +20,14 @@ sed -i 's/\(dtoverlay=hyperpixel4\)/\1,touchscreen-swapped-x-y,touchscreen-inver
 # We're going to swap dhcpd for NetworkManager so we can use wifi-connect to get
 # our networking on in a dynamic way
 apt-get update
-apt-get install -y -d network-manager
+apt-get install -y -d --no-install-recommends network-manager
 
 systemctl stop dhcpcd
 systemctl disable dhcpcd
 
-apt-get purge openresolv dhcpcd5
+apt-get purge -y openresolv dhcpcd5
 
-apt-get install -y network-manager
+apt-get install -y  --no-install-recommends network-manager
 apt-get clean
 
 # Change the interfaces file so that NetworkManager can control all the things

@@ -21,7 +21,7 @@ services:
         cap_add:
             - NET_ADMIN
         environment:
-            DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/var/run/dbus/system_bus_socket"
+            DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
         volumes:
-            - /run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+            - /run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
         privileged: true
