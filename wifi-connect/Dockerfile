@@ -13,6 +13,10 @@ RUN curl https://api.github.com/repos/balena-io/wifi-connect/releases/latest -s 
     | xargs -n1 curl -Ls \
     | tar -xvz -C /usr/src/app/
 
+COPY ../common/entry.sh /usr/bin/entry.sh
+ENTRYPOINT ["/usr/bin/entry.sh"]
+ENV INITSYSTEM on
+
 COPY ./start.sh .
 
 CMD ["bash", "start.sh"]
