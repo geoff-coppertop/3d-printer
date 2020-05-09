@@ -41,5 +41,8 @@ echo "iface lo inet loopback" >> /etc/network/interfaces
 systemctl enable NetworkManager
 systemctl start NetworkManager
 
+# Let's give the NetworkManager service some time to start up
+sleep 10
+
 # Start the services
 docker-compose up -d

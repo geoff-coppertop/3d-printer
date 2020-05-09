@@ -37,6 +37,12 @@ write_files:
             subnets:
               - type: dhcp
     path: /etc/cloud/cloud.cfg.d/custom-networking.cfg
+  - content: |
+      country=CA
+      ctrl_interface=/var/run/wpa_supplicant
+      ctrl_interface_group=0
+      update_config=0
+    path: /etc/wpa_supplicant/wpa_supplicant.conf
 
 # These commands will be run once on first boot only
 runcmd:
