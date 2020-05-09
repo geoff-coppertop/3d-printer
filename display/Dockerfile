@@ -43,7 +43,7 @@ RUN systemctl mask \
     getty.target \
     graphical.target
 
-COPY ../common/entry.sh /usr/bin/entry.sh
+COPY entry.sh /usr/bin/entry.sh
 COPY balena.service /etc/systemd/system/balena.service
 
 RUN systemctl enable /etc/systemd/system/balena.service
@@ -55,7 +55,7 @@ ENV UDEV on
 
 # Setting up the user application
 WORKDIR /usr/src/app
-COPY start.sh ./
+COPY start.sh .
 
 # Start app
 CMD ["bash", "start.sh"]

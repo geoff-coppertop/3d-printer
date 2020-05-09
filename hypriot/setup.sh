@@ -1,5 +1,9 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+
 # Setup display
 pip3 install RPi.GPIO
 git clone "https://github.com/pimoroni/hyperpixel4" -b pi3
@@ -42,7 +46,25 @@ systemctl enable NetworkManager
 systemctl start NetworkManager
 
 # Let's give the NetworkManager service some time to start up
-sleep 10
+MAX_TRIES=5
+counter=0
 
-# Start the services
-docker-compose up -d
+wget --spider https://coppertop.ca 2>&1
+
+while [ $? -ne 0 ] && [ $counter -lt $MAX_TRIES ]
+do
+	echo -e "${YELLOW}Not connected."
+    sleep 10
+    $counter=$(( $counter + 1 ))
+    wget --spider https://coppertop.ca 2>&1
+done
+
+if [ $? -ne 0 ] || [ $counter -ge $MAX_TRIES ];
+then
+    echo -e "${GREEN}Sad :("
+else
+    echo -e "${GREEN}Good to go!"
+    
+    # Start the services
+    docker-compose up -d
+fi
