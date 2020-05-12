@@ -45,25 +45,30 @@ echo "iface lo inet loopback" >> /etc/network/interfaces
 systemctl enable NetworkManager
 systemctl start NetworkManager
 
-# Let's give the NetworkManager service some time to start up
-MAX_TRIES=5
-counter=0
+# # Let's give the NetworkManager service some time to start up
+# MAX_TRIES=5
+# counter=0
 
-wget --spider https://docker.io 2>&1
+# wget --spider https://docker.io 2>&1
 
-while [ $? -ne 0 ] && [ $counter -lt $MAX_TRIES ]
-do
-	echo -e "${YELLOW}Not connected."
-    sleep 10
-    $counter=$(( $counter + 1 ))
-    wget --spider https://docker.io 2>&1
-done
+# while [ $? -ne 0 ] && [ $counter -lt $MAX_TRIES ]
+# do
+# 	echo -e "${YELLOW}Not connected."
+#     sleep 10
+#     $counter=$(( $counter + 1 ))
+#     wget --spider https://docker.io 2>&1
+# done
 
-if [ $? -ne 0 ] || [ $counter -ge $MAX_TRIES ]; then
-    echo -e "${GREEN}Sad :("
-else
-    echo -e "${GREEN}Good to go!"
+# if [ $? -ne 0 ] || [ $counter -ge $MAX_TRIES ]; then
+#     echo -e "${GREEN}Sad :("
+# else
+#     echo -e "${GREEN}Good to go!"
 
-    # Start the services
-    docker-compose up -d
-fi
+#     # Start the services
+#     docker-compose up -d
+# fi
+
+
+# Start the services
+sudo su -
+docker-compose up -d

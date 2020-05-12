@@ -42,4 +42,6 @@ RUN curl https://api.github.com/repos/balena-io/wifi-connect/releases/latest -s 
     | xargs -n1 curl -Ls \
     | tar -xvz -C /usr/src/app/
 
+RUN systemctl enable /etc/systemd/system/app.service
+
 CMD ["bash", "start.sh"]

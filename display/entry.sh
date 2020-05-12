@@ -2,7 +2,6 @@
 
 set -m
 
-
 ## Privileged container check
 function dummy0_remove()
 {
