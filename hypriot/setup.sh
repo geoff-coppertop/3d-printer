@@ -49,14 +49,14 @@ systemctl start NetworkManager
 MAX_TRIES=5
 counter=0
 
-wget --spider https://coppertop.ca 2>&1
+wget --spider https://docker.io 2>&1
 
 while [ $? -ne 0 ] && [ $counter -lt $MAX_TRIES ]
 do
 	echo -e "${YELLOW}Not connected."
     sleep 10
     $counter=$(( $counter + 1 ))
-    wget --spider https://coppertop.ca 2>&1
+    wget --spider https://docker.io 2>&1
 done
 
 if [ $? -ne 0 ] || [ $counter -ge $MAX_TRIES ]; then
