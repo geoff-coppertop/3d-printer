@@ -59,12 +59,11 @@ do
     wget --spider https://coppertop.ca 2>&1
 done
 
-if [ $? -ne 0 ] || [ $counter -ge $MAX_TRIES ];
-then
+if [ $? -ne 0 ] || [ $counter -ge $MAX_TRIES ]; then
     echo -e "${GREEN}Sad :("
 else
     echo -e "${GREEN}Good to go!"
-    
+
     # Start the services
     docker-compose up -d
 fi

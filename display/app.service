@@ -1,9 +1,9 @@
 [Unit]
-Description=Balena User Application
+Description=User Application
 
 [Service]
 EnvironmentFile=/etc/docker.env
-ExecStart=/etc/balenaApp.sh
+ExecStart=/etc/app.sh
 StandardOutput=tty
 StandardError=tty
 TTYPath=/dev/console

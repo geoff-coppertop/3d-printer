@@ -8,6 +8,8 @@ services:
         environment: 
             URL: "https://coppertop.ca"
             DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
+            INITSYSTEM: "on"
+            UDEV: "on"
         volumes:
             - /run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
         links:
@@ -22,6 +24,7 @@ services:
             - NET_ADMIN
         environment:
             DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
+            INITSYSTEM: "on"
         volumes:
             - /run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
         privileged: true
