@@ -49,3 +49,30 @@ I learned from others to make this happen and want to acknowledge those websites
   * Octopi / Klipper
     * [OctoPrint](https://octoprint.org)
     * [Klipper](https://www.klipper3d.org)
+    * <https://community.octoprint.org/t/connecting-octopi-to-a-separate-rpi/11446/21>
+    * <https://community.octoprint.org/t/connecting-octopi-to-a-separate-rpi/11446/29>
+    * <https://github.com/JSurf/docker-rpi-ser2net>
+    * <https://github.com/leesy24/BBB_Web_Manager/wiki/%5Bsystemd%5D-Writing-and-Enabling-a-Service-for-ser2net>
+    * <https://github.com/KevinOConnor/klipper/issues/1851>
+    * <https://github.com/bthome/OctoPrint-Klipper>
+    * <https://github.com/seanauff/OctoPrint-Klipper>
+    * <https://github.com/sillyfrog/OctoPrint-Klipper-mjpg-Dockerfile>
+    * <https://pypi.org/project/OctoPrint/#usage>
+    * <https://docs.octoprint.org/en/1.2.0/configuration/config_yaml.html>
+  * systemd
+    * [logging](https://unix.stackexchange.com/questions/20399/view-stdout-stderr-of-systemd-service)
+    * <https://www.freedesktop.org/software/systemd/man/systemd.service.html>
+  * cross build image for arm
+    * <https://collabnix.com/building-arm-based-docker-images-on-docker-desktop-made-possible-using-buildx/>
+    * <https://medium.com/swlh/using-github-actions-to-build-arm-based-docker-images-413a8d498ee>
+    * <https://github.com/multiarch/qemu-user-static>
+  * ser2net
+    * <https://github.com/leesy24/BBB_Web_Manager/wiki/%5Bsystemd%5D-Writing-and-Enabling-a-Service-for-ser2net>
+    * <https://hub.docker.com/r/jsurf/rpi-ser2net/dockerfile>
+  * socat
+    * <https://medium.com/@copyconstruct/socat-29453e9fc8a6>
+    * <https://lihsmi.ch/docker/2020/01/02/socat-docker.html>
+    * <https://github.com/bpack/docker-socat>
+    * <https://github.com/craSH/socat/blob/master/EXAMPLES>
+    * <https://unix.stackexchange.com/questions/489478/virtual-serial-port-between-docker-containers>
+    * <https://stackoverflow.com/questions/20532195/socat-with-a-virtual-tty-link-and-fork-removes-my-pty-link>

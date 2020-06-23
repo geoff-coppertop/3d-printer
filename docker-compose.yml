@@ -1,7 +1,7 @@
 version: '3.7'
 services:
     display:
-        build: ./display/
+        image: coppertopgeoff/servicekiosk:edge
         container_name: display
         restart: unless-stopped
         privileged: true
@@ -16,7 +16,7 @@ services:
             - wifi-connect
 
     wifi-connect:
-        build: ./wifi-connect/
+        image: coppertopgeoff/servicewifi:edge
         container_name: wifi-connect
         restart: unless-stopped
         network_mode: "host"
