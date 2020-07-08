@@ -1,5 +1,27 @@
 version: '3.7'
 services:
+    octoprint:
+        image: coppertopgeoff/serviceoctoprint:edge
+        container_name: octoprint
+        restart: unless-stopped
+        environment:
+            INITSYSTEM: "on"
+        volumes:
+            - ./octoprint/cfg:/usr/app/cfg
+        ports: 
+            - "5000:5000"
+
+    klipper:
+        image: coppertopgeoff/serviceklipper:edge
+        container_name: klipper
+        restart: unless-stopped
+        privileged: true
+        environment:
+            INITSYSTEM: "on"
+            UDEV: "on"
+        volumes:
+            - ./klipper/cfg:/usr/app/cfg
+
     display:
         image: coppertopgeoff/servicekiosk:edge
         container_name: display
@@ -12,8 +34,6 @@ services:
             UDEV: "on"
         volumes:
             - /run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
-        links:
-            - wifi-connect
 
     wifi-connect:
         image: coppertopgeoff/servicewifi:edge
@@ -25,6 +45,7 @@ services:
         environment:
             DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
             INITSYSTEM: "on"
+            UDEV: "on"
         volumes:
             - /run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
         privileged: true
