@@ -1,78 +1,105 @@
 # 3d-printer
 
-This is a raspberry pi based 3D pritner controller. The raspberry pi is loaded with [Hypriot OS](https://blog.hypriot.com) this allows for the main pieces to be run as docker containers. The docker container that are run on the host are,
-  * **X**, is used as the display backend
-  * **Chromium**, is used as the display frontend that bridges the X and Octopi/Klipper containers
-  * **Octopi, with Klipper**. Acts as the print spool and communicates with the klipper process to run the motion control on the USB connected controller. This container is a composite image of Octopi and Klipper. In the future it would be cleaner if Octopi and Klipper were separate containers connected by a virtual UART.
-
-The host OS has a device tree overlay applied for the Hyperpixel4 rectangular display, touch events for this device should come from evdev.
-
-It's worth noting that I did consider balena.io as a host OS but am bothered by the fact that I'm forced into using all of their tools which have device number limits at the free tier. Overall the solution may be simpler on balena.io because more things are already finished, but I learn more this way. 
+Klipper based #d printer. My goals are a printer that,
+1. Can be setup reliably
+2. Can be used without a computer
+3. Can be controlled from a computer
 
 ## Setup
 
-The Hypriot project provides detailed steps for flashing the micro SD card needed for the raspberry pi. So that I don't forget here are the concise steps,
-  1. Install hypriot tools
-     ```bash
-     curl -LO https://github.com/hypriot/flash/releases/download/2.6.0/flash
-     chmod +x flash
-     sudo mv flash /usr/local/bin/flash
-     ```
-  2. Install ancilliary tools
-     ```bash
-     brew install pv
-     brew install awscli
-     ```
-  3. Flash micro SD card
-     ```bash
-     flash \
-       --userdata ./hypriot/cloud-init.yml \
-       --device /dev/disk2 \
-       https://github.com/hypriot/image-builder-rpi/releases/download/v1.12.0/hypriotos-rpi-v1.12.0.img.zip
-     ```
+### OS
 
-## References
+The Big Tree Tech Pi2 is a cheapish alternative to the Raspberry Pi 3/4. The [user manul](https://github.com/bigtreetech/CB2) for the BTT Pi2/CB2 details how to install armbian from which we can the run a series of steps to setup the printer with Klipper in a consistent manner.
 
-I learned from others to make this happen and want to acknowledge those websites and projects.
+### Things that make it a printer
 
-  * Host OS
-    * [Hypriot OS - Getting start with Docker on your Raspberry Pi](https://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/)
-    * [Random cloud-config for setting up PXE boot I think](https://gist.github.com/dm4tze/d931a0f17645a0f1cc6e14d353109840)
-    * [Sensors and data logging with embedded linux](https://www.balena.io/blog/sensors-and-data-logging-with-embedded-linux-the-ultimate-guide-part-1/#dtoverlaycontainerwithdocker)
-    * [Hyperpixel 4 - Manual installation](https://github.com/pimoroni/hyperpixel4)
-    * [Hyperpixel 4 - Touchscreen support](https://forums.pimoroni.com/t/hyperpixel-4-touchscreen-support/12695)
-    * [Hyperpixel 4 - Touch screen dimensions are swapped](https://forums.pimoroni.com/t/hyperpixel-4-touch-screen-dimensions-are-swapped/8198/10)
-    * [balena-io/wifi-connect](https://github.com/balena-io/wifi-connect)
-  * Web Kiosk
-    * [rspi-kiosk](https://github.com/ck99/rspi-kiosk)
-    * [Setup Raspberry Pi for kiosk mode](https://die-antwort.eu/techblog/2017-12-setup-raspberry-pi-for-kiosk-mode/)
-  * Octopi / Klipper
-    * [OctoPrint](https://octoprint.org)
-    * [Klipper](https://www.klipper3d.org)
-    * <https://community.octoprint.org/t/connecting-octopi-to-a-separate-rpi/11446/21>
-    * <https://community.octoprint.org/t/connecting-octopi-to-a-separate-rpi/11446/29>
-    * <https://github.com/JSurf/docker-rpi-ser2net>
-    * <https://github.com/leesy24/BBB_Web_Manager/wiki/%5Bsystemd%5D-Writing-and-Enabling-a-Service-for-ser2net>
-    * <https://github.com/KevinOConnor/klipper/issues/1851>
-    * <https://github.com/bthome/OctoPrint-Klipper>
-    * <https://github.com/seanauff/OctoPrint-Klipper>
-    * <https://github.com/sillyfrog/OctoPrint-Klipper-mjpg-Dockerfile>
-    * <https://pypi.org/project/OctoPrint/#usage>
-    * <https://docs.octoprint.org/en/1.2.0/configuration/config_yaml.html>
-  * systemd
-    * [logging](https://unix.stackexchange.com/questions/20399/view-stdout-stderr-of-systemd-service)
-    * <https://www.freedesktop.org/software/systemd/man/systemd.service.html>
-  * cross build image for arm
-    * <https://collabnix.com/building-arm-based-docker-images-on-docker-desktop-made-possible-using-buildx/>
-    * <https://medium.com/swlh/using-github-actions-to-build-arm-based-docker-images-413a8d498ee>
-    * <https://github.com/multiarch/qemu-user-static>
-  * ser2net
-    * <https://github.com/leesy24/BBB_Web_Manager/wiki/%5Bsystemd%5D-Writing-and-Enabling-a-Service-for-ser2net>
-    * <https://hub.docker.com/r/jsurf/rpi-ser2net/dockerfile>
-  * socat
-    * <https://medium.com/@copyconstruct/socat-29453e9fc8a6>
-    * <https://lihsmi.ch/docker/2020/01/02/socat-docker.html>
-    * <https://github.com/bpack/docker-socat>
-    * <https://github.com/craSH/socat/blob/master/EXAMPLES>
-    * <https://unix.stackexchange.com/questions/489478/virtual-serial-port-between-docker-containers>
-    * <https://stackoverflow.com/questions/20532195/socat-with-a-virtual-tty-link-and-fork-removes-my-pty-link>
+We need to install the following things to make it the way I like. I'm not good at following instructions, even the ones I write, so we will try and make choices that allow us to engineer our way out of having to read.
+
+#### Klipper
+
+https://github.com/Klipper3d/klipper
+
+#### Moonraker
+
+https://github.com/Arksine/moonraker
+
+#### Katapult
+
+https://github.com/Arksine/katapult
+
+#### Mainsail
+
+https://github.com/mainsail-crew/mainsail
+
+#### Klipper Screen
+
+https://github.com/jordanruthe/KlipperScreen
+
+#### KAMP
+
+ttps://github.com/kyleisah/Klipper-Adaptive-Meshing-Purging
+
+#### Klipper Backup
+
+https://github.com/Staubgeborener/klipper-backup
+https://klipperbackup.xyz/
+
+#### Crowsnest
+
+https://github.com/mainsail-crew/crowsnest
+
+#### Mainsail Config
+
+https://github.com/mainsail-crew/mainsail-config
+
+#### Sonar
+
+https://github.com/mainsail-crew/sonar
+
+#### Moonraker Timelapse
+
+https://github.com/mainsail-crew/moonraker-timelapse
+
+#### Mooncord
+
+https://github.com/eliteSchwein/mooncord
+
+#### Printer Configuration
+
+https://github.com/geoff-coppertop/printer-macros
+https://github.com/geoff-coppertop/cr6-config
+
+#### Cartographer 3D
+
+https://github.com/Cartographer3D/cartographer-klipper
+
+### Build firmware
+
+
+### CAN Networking
+
+https://canbus.esoterical.online/
+https://github.com/Esoterical/voron_canbus
+
+### IP Networking
+
+```
+[Unit]
+Description=Klipper Backup On-boot Service
+#Uncomment below lines if using network manager
+#After=NetworkManager-wait-online.service
+#Wants=NetworkManager-wait-online.service
+#Uncomment below lines if not using network manager
+#After=network-online.target
+#Wants=network-online.target
+
+[Service]
+User={replace with your username}
+Type=oneshot
+ExecStart=/usr/bin/env bash -c "/usr/bin/env bash $HOME/klipper-backup/script.sh -c \"New Backup on boot - $(date +\"%%x - %%X\")\""
+
+[Install]
+WantedBy=default.target
+```
+
+Can we use the NetworkManager-wait-online service to determine if we start a daemon that sets up a WiFi AP that has a captive portal for configuraing station mode?
